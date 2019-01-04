@@ -101,11 +101,15 @@ static float phi, theta;
 /* Inkrementi gornjih uglova. */
 static float delta_phi, delta_theta;
 
+static int mouse_x, mouse_y;
+
 /* Deklaracije callback funkcija. */
 static void on_keyboard(unsigned char key, int x, int y);
 static void on_reshape(int width, int height);
 static void on_display(void);
 static void on_timer(int id);
+static void on_mouse(int button, int state, int x, int y);
+static void on_motion(int x, int y);
 char* material_select(int object, int value);
 void material(int dlist, GLfloat * ambient, GLfloat * diffuse,
   GLfloat * specular, GLfloat shininess);
@@ -190,9 +194,10 @@ int main(int argc, char **argv)
 
     /* Registruju se callback funkcije. */
     glutKeyboardFunc(on_keyboard);
-	
     glutReshapeFunc(on_reshape);
     glutDisplayFunc(on_display);
+	glutMouseFunc(on_mouse);
+    glutMotionFunc(on_motion);
 
 	#define MATERIAL_MENU_ENTRIES() \
     glutAddMenuEntry("Zuto", ZUTO); \
@@ -294,7 +299,8 @@ int main(int argc, char **argv)
     theta = pi / 4;
     delta_phi = delta_theta = pi / 90;
 
-   
+	mouse_x = 0;
+	mouse_y = 0;   
 
     /* Obavlja se OpenGL inicijalizacija. */
     glClearColor(0, 0, 0, 0);
@@ -435,6 +441,41 @@ static void on_keyboard(unsigned char key, int x, int y)
         animation_ongoing = 0;
         break;
 	}
+}
+
+static void on_mouse(int button, int state, int x, int y)
+{
+    /* Pamti se pozicija pokazivaca misa. */
+    mouse_x = x;
+    mouse_y = y;
+}
+
+static void on_motion(int x, int y)
+{
+    /* Promene pozicije pokazivaca misa. */
+    int delta_x, delta_y;
+
+    /* Izracunavaju se promene pozicije pokazivaca misa. */
+    delta_x = x - mouse_x;
+    delta_y = y - mouse_y;
+
+    /* Pamti se nova pozicija pokazivaca misa. */
+    mouse_x = x;
+    mouse_y = y;
+
+    /* Izracunava se nova matrica rotacije. */
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+        glLoadIdentity();
+        glRotatef(180 * (float) delta_x / window_width, 0, 1, 0);
+        glRotatef(180 * (float) delta_y / window_height, 1, 0, 0);
+        glMultMatrixf(matrix);
+
+        glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
+    glPopMatrix();
+
+    /* Forsira se ponovno iscrtavanje prozora. */
+    glutPostRedisplay();
 }
 
 static void on_reshape(int width, int height)
