@@ -16,3 +16,12 @@ Na dugme 'r' ili 'R' se resetuje stanje.
 Na escape se izlaci iz programa.
 
 Levim klikom misa mozemo rotirati scenu.
+
+Na dugme 1 se ide kockom levo.
+Na dugme 2 se ide kockom desno.
+Na dugme 3 se ide kockom dole.
+Na dugme 4 se ide kockom gore.
+Na dugme 5 se ide kockom napredd.
+Na dugme 6 se ide kockom nazad.
+Na dugme 7 se pokrece animacija, tako da se kocka krece u prostoru, odbija se od ivica. Na slovo 8 se ova animacija zaustavlja.
+Kada se promeni neka kocka brojacem b, koji broji unapred i brojacem B koji broji unazad, to se vidi i na ekranu

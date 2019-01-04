@@ -103,6 +103,9 @@ static float delta_phi, delta_theta;
 
 static int mouse_x, mouse_y;
 
+//brojac za kocke
+int a = 0;
+
 /* Deklaracije callback funkcija. */
 static void on_keyboard(unsigned char key, int x, int y);
 static void on_reshape(int width, int height);
@@ -353,6 +356,37 @@ static void on_timer(int id)
     }
 }
 
+//za f-ju on_timer_cube_move
+float x = -0.03;
+float y = -0.02;
+float z = -0.01;
+
+static void on_timer_cube_move(int id)
+{
+	if(TIMER_ID != id)
+		return;
+
+	X[a][0] += x;
+	if(X[a][0] >= 2.5 || X[a][0] <= -2.5) {
+		x *= -1;
+	}	
+	X[a][1] += y;
+	if(X[a][1] >= 2.5 || X[a][1] <= -2.5) {
+		y *= -1;
+	}
+	X[a][2] += z;
+	if(X[a][2] >= 2.5 || X[a][2] <= -2.5) {
+		z *= -1;
+	}
+
+
+	glutPostRedisplay();
+
+    if (animation_ongoing) {
+        glutTimerFunc(TIMER_INTERVAL, on_timer_cube_move, TIMER_ID);
+    }
+}
+
 //tastatura
 static void on_keyboard(unsigned char key, int x, int y)
 {
@@ -361,7 +395,6 @@ static void on_keyboard(unsigned char key, int x, int y)
         /* Zavrsava se program. */
         exit(0);
         break;
-	
 	
     case 'h':
     case 'H':
@@ -440,6 +473,67 @@ static void on_keyboard(unsigned char key, int x, int y)
     case 'S':
         animation_ongoing = 0;
         break;
+
+	//brojac za biranje kocki:
+	case 'b':
+		if(a == 13){
+			a = 0;
+		}
+		else
+			a++;
+		break;
+	case 'B':
+		if(a == 0){
+			a = 13;
+		}
+		else
+			a--;
+		break;
+	// sledecih 6 dugmadi menja poziciju kocku, u zavisnosti koje dugme kliknemo, levo, desno, gore, dole, nazad i napred
+
+	//levo
+	case '1':		
+        X[a][0] -= 0.2;
+        glutPostRedisplay();
+        break;
+	//desno
+	case '2':
+        X[a][0] += 0.2;
+        glutPostRedisplay();
+        break;
+	//dole
+	case '3':		
+        X[a][1] -= 0.2;
+        glutPostRedisplay();
+        break;
+	//gore
+	case '4':
+        X[a][1] += 0.2;
+        glutPostRedisplay();
+        break;
+	//napred
+	case '5':		
+        X[a][2] -= 0.2;
+        glutPostRedisplay();
+        break;
+	//nazad
+	case '6':
+        X[a][2] += 0.2;
+        glutPostRedisplay();
+        break;
+
+	//za animaciju kocke u prostoru
+	case '7':
+		if (!animation_ongoing) {
+            animation_ongoing = 1;
+            glutTimerFunc(TIMER_INTERVAL, on_timer_cube_move, TIMER_ID);
+        }
+		break;
+	//zaustavljanje animacije
+	case '8':
+		animation_ongoing = 0;
+		break;
+
 	}
 }
 
@@ -675,14 +769,14 @@ glPushMatrix();
 	glPopMatrix();
 
 	glPushMatrix();
-    	glScalef(1, -1, 1);
+    	glScalef(1, 1, 1);
     	glTranslatef(X[1][0], X[1][1], X[1][2]);
 		glCallList(CUBE2_MATERIAL);
     	glutSolidCube(1);
 	glPopMatrix();
 
 	glPushMatrix();
-		glScalef(-1, 1, 1);
+		glScalef(1, 1, 1);
 		glTranslatef(X[2][0], X[2][1], X[2][2]);
 		glCallList(CUBE3_MATERIAL);
 		glutSolidCube(1);
@@ -690,7 +784,7 @@ glPushMatrix();
 
 	
 	glPushMatrix();
-		glScalef(1, -1, 1);
+		glScalef(1, 1, 1);
 		glTranslatef(X[3][0], X[3][1], X[3][2]);
 		glCallList(CUBE4_MATERIAL);
 		glutSolidCube(1);
@@ -824,7 +918,8 @@ glPopMatrix();
   output(1920, 2200, "Cube15: %s", cube15_material);
   output(850, 100, "Shade model: %s",
     shade_model == GL_SMOOTH ? "smooth" : "flat");
-  
+  output(850, 300, "Odabrana je kocka: %d", a+1);  
+
   glPopMatrix();
   glMatrixMode(GL_PROJECTION);
   glPopMatrix();
