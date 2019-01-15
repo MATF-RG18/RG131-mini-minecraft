@@ -24,4 +24,18 @@ Na dugme 4 se ide kockom gore.
 Na dugme 5 se ide kockom napredd.
 Na dugme 6 se ide kockom nazad.
 Na dugme 7 se pokrece animacija, tako da se kocka krece u prostoru, odbija se od ivica. Na slovo 8 se ova animacija zaustavlja.
-Kada se promeni neka kocka brojacem b, koji broji unapred i brojacem B koji broji unazad, to se vidi i na ekranu
+Kada se promeni neka kocka brojacem b, koji broji unapred i brojacem B koji broji unazad, to se vidi i na ekranu.
+
+Sledeca dugmad prave od kocki neka cirilicna slova
+Na slovo 'x' se pravi cirilicno slovo P
+Na slovo 'X' se pravi cirilicno slovo G
+Na slovo 'z' ostane samo jedna kocka sa centrom u (0,0)
+Na slovo 'Z' se pravi cirilicno slovo M
+Na slovo 'y' se pravi cirilicno slovo H ili latinicno X
+Na slovo 'Y' se pravi cirilicno slovo O
+Na slovo 'u' se pravi cirilicno slovo I
+Na slovo 'U' se pravi cirilicno slovo K
+Na slovo 'v' se pravi cirilicno slovo A
+Na slovo 'V' se pravi cirilicno slovo F
+Na slovo 'l' nestanu sve kocke sa ekrana
+
